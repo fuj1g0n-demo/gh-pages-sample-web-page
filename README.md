@@ -4,7 +4,7 @@ GitHub Pages にデプロイされたモダンな Web アプリケーション�
 
 ## Demo
 
-**https://fuj1g0n-demo-org-01.github.io/gh-pages-sample-web-page/**
+**https://fuj1g0n-demo-01.github.io/gh-pages-sample-web-page/**
 
 ## Tech Stack
 
@@ -18,16 +18,21 @@ GitHub Pages にデプロイされたモダンな Web アプリケーション�
 
 ## Prerequisites
 
-本リポジトリに必要な依存関係（Node.js、pnpm など）はすべて [devbox](https://www.jetify.com/devbox/) で管理されています。
+本リポジトリに必要な依存関係（Node.js、pnpm など）はすべて [Nix](https://nixos.org/) の flake（`flake.nix`）で管理されています。
 
-devbox をインストールするには、[公式インストールガイド](https://www.jetify.com/docs/devbox/installing_devbox/)を参照してください。
+Nix をインストールするには、[Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer) の利用を推奨します。
+
+開発シェルの自動読み込みには [direnv](https://direnv.net/) と [nix-direnv](https://github.com/nix-community/nix-direnv) を使用します。
+
+初回のみ、リポジトリのルートで設定を許可してください。
+
+```bash
+direnv allow
+```
 
 ## Development
 
 ```bash
-# devbox 環境を起動
-devbox shell
-
 # 依存関係をインストール
 pnpm install
 
