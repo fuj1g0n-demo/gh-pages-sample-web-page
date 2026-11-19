@@ -8,11 +8,11 @@
 
 本リポジトリでは、開発ライフサイクルの各フェーズに対応する **3 つのワークフロー** を運用しています。
 
-| ワークフロー | ファイル | トリガー | 目的 |
-|-------------|---------|---------|------|
-| CI | `.github/workflows/ci.yml` | PR → main | コード品質の検証 |
-| CD (main) | `.github/workflows/cd-main.yml` | push to main / 手動 | 最新版の継続的デプロイ |
-| CD (release) | `.github/workflows/cd-release.yaml` | Release published | 本番リリースデプロイ |
+| ワークフロー | ファイル                            | トリガー            | 目的                   |
+| ------------ | ----------------------------------- | ------------------- | ---------------------- |
+| CI           | `.github/workflows/ci.yml`          | PR → main           | コード品質の検証       |
+| CD (main)    | `.github/workflows/cd-main.yml`     | push to main / 手動 | 最新版の継続的デプロイ |
+| CD (release) | `.github/workflows/cd-release.yaml` | Release published   | 本番リリースデプロイ   |
 
 ```mermaid
 flowchart LR
@@ -62,13 +62,13 @@ flowchart TD
     B --> N
 ```
 
-| Job | 依存 | 説明 |
-|-----|------|------|
-| **build** | — | TypeScript コンパイル + Vite ビルド。成果物を artifact としてアップロード |
-| **lint** | — | Biome によるコード品質チェック（build と並列実行） |
-| **unit-test** | build | 単体テスト（Vitest）。`*.integration.test.*` を除外 |
-| **integration-test** | build | 結合テスト（Vitest）。コンポーネント間の連携を検証 |
-| **notification** | 全 Job | Job Summary にテーブル形式で結果を出力。失敗時は workflow 全体を失敗にする |
+| Job                  | 依存   | 説明                                                                       |
+| -------------------- | ------ | -------------------------------------------------------------------------- |
+| **build**            | —      | TypeScript コンパイル + Vite ビルド。成果物を artifact としてアップロード  |
+| **lint**             | —      | Biome によるコード品質チェック（build と並列実行）                         |
+| **unit-test**        | build  | 単体テスト（Vitest）。`*.integration.test.*` を除外                        |
+| **integration-test** | build  | 結合テスト（Vitest）。コンポーネント間の連携を検証                         |
+| **notification**     | 全 Job | Job Summary にテーブル形式で結果を出力。失敗時は workflow 全体を失敗にする |
 
 ### テストコマンド
 
@@ -80,8 +80,8 @@ pnpm run lint               # Biome lint
 
 ### Permissions
 
-| 権限 | 値 |
-|------|-----|
+| 権限       | 値     |
+| ---------- | ------ |
 | `contents` | `read` |
 
 ---
@@ -104,12 +104,12 @@ flowchart TD
     D --> N
 ```
 
-| Job | 依存 | 説明 |
-|-----|------|------|
-| **build** | — | TypeScript コンパイル + Vite ビルド。Pages artifact をアップロード |
-| **deploy** | build | `github-pages` environment に GitHub Pages デプロイ |
-| **system-test** | deploy | デプロイ済みサイトに対して Playwright でシステムテスト実行 |
-| **notification** | 全 Job | Job Summary に結果サマリーを出力 |
+| Job              | 依存   | 説明                                                               |
+| ---------------- | ------ | ------------------------------------------------------------------ |
+| **build**        | —      | TypeScript コンパイル + Vite ビルド。Pages artifact をアップロード |
+| **deploy**       | build  | `github-pages` environment に GitHub Pages デプロイ                |
+| **system-test**  | deploy | デプロイ済みサイトに対して Playwright でシステムテスト実行         |
+| **notification** | 全 Job | Job Summary に結果サマリーを出力                                   |
 
 ### テストコマンド
 
@@ -119,10 +119,10 @@ pnpm run test:system   # Playwright システムテスト（BASE_URL 環境変�
 
 ### Permissions
 
-| 権限 | 値 |
-|------|-----|
-| `contents` | `read` |
-| `pages` | `write` |
+| 権限       | 値      |
+| ---------- | ------- |
+| `contents` | `read`  |
+| `pages`    | `write` |
 | `id-token` | `write` |
 
 ### Concurrency
@@ -161,13 +161,13 @@ flowchart TD
     ST -->|failure| R
 ```
 
-| Job | 依存 | 条件 | 説明 |
-|-----|------|------|------|
-| **build** | — | — | TypeScript コンパイル + Vite ビルド。Pages artifact をアップロード |
-| **deploy** | build | — | `github-pages` environment に GitHub Pages デプロイ |
-| **system-test** | deploy | — | デプロイ済みサイトに対して Playwright でシステムテスト実行 |
-| **rollback** | 全 Job | `failure()` | Release を Draft 状態に戻す。失敗原因の調査・修正後に再 Publish 可能 |
-| **notification** | 全 Job | `always()` | Job Summary にタグ名付きの結果サマリーを出力 |
+| Job              | 依存   | 条件        | 説明                                                                 |
+| ---------------- | ------ | ----------- | -------------------------------------------------------------------- |
+| **build**        | —      | —           | TypeScript コンパイル + Vite ビルド。Pages artifact をアップロード   |
+| **deploy**       | build  | —           | `github-pages` environment に GitHub Pages デプロイ                  |
+| **system-test**  | deploy | —           | デプロイ済みサイトに対して Playwright でシステムテスト実行           |
+| **rollback**     | 全 Job | `failure()` | Release を Draft 状態に戻す。失敗原因の調査・修正後に再 Publish 可能 |
+| **notification** | 全 Job | `always()`  | Job Summary にタグ名付きの結果サマリーを出力                         |
 
 ### Rollback 機能
 
@@ -180,11 +180,11 @@ flowchart TD
 
 ### Permissions
 
-| 権限 | 値 | 理由 |
-|------|-----|------|
+| 権限       | 値      | 理由                        |
+| ---------- | ------- | --------------------------- |
 | `contents` | `write` | Release を Draft に戻すため |
-| `pages` | `write` | Pages デプロイ |
-| `id-token` | `write` | Pages デプロイ認証 |
+| `pages`    | `write` | Pages デプロイ              |
+| `id-token` | `write` | Pages デプロイ認証          |
 
 ### Concurrency
 
@@ -194,8 +194,8 @@ CD (main) と同じ `pages` グループを共有し、同時デプロイを防�
 
 ## Environment 設計
 
-| Environment | 使用 Workflow | 説明 |
-|-------------|-------------|------|
+| Environment    | 使用 Workflow            | 説明                                                                 |
+| -------------- | ------------------------ | -------------------------------------------------------------------- |
 | `github-pages` | CD (main) / CD (release) | GitHub Pages のデプロイ先。Protection rule（承認者要求等）を設定可能 |
 
 > **注意:** `github-pages` environment の protection rule はリポジトリの **Settings > Environments** から別途設定してください。
@@ -223,12 +223,12 @@ flowchart LR
     UT ~~~ IT ~~~ LT ~~~ ST
 ```
 
-| テスト種別 | ツール | 実行タイミング | コマンド | 対象 |
-|-----------|-------|-------------|---------|------|
-| Lint | Biome | CI（PR） | `pnpm run lint` | コードスタイル・品質 |
-| Unit Test | Vitest | CI（PR） | `pnpm run test:unit` | 個別コンポーネント |
-| Integration Test | Vitest + Testing Library | CI（PR） | `pnpm run test:integration` | コンポーネント間連携 |
-| System Test | Playwright | CD（デプロイ後） | `pnpm run test:system` | デプロイ済みサイト全体 |
+| テスト種別       | ツール                   | 実行タイミング   | コマンド                    | 対象                   |
+| ---------------- | ------------------------ | ---------------- | --------------------------- | ---------------------- |
+| Lint             | Biome                    | CI（PR）         | `pnpm run lint`             | コードスタイル・品質   |
+| Unit Test        | Vitest                   | CI（PR）         | `pnpm run test:unit`        | 個別コンポーネント     |
+| Integration Test | Vitest + Testing Library | CI（PR）         | `pnpm run test:integration` | コンポーネント間連携   |
+| System Test      | Playwright               | CD（デプロイ後） | `pnpm run test:system`      | デプロイ済みサイト全体 |
 
 ---
 
@@ -236,13 +236,13 @@ flowchart LR
 
 すべてのワークフローで共通して使用されるツールとアクション：
 
-| 項目 | 技術 |
-|------|------|
-| ランタイム管理 | Nix flake (DeterminateSystems/nix-installer-action@v22) |
-| パッケージマネージャー | pnpm |
-| ビルド | Vite + TypeScript |
-| デプロイ | actions/deploy-pages@v4 |
-| 通知 | actions/github-script@v7（Job Summary） |
+| 項目                   | 技術                                                    |
+| ---------------------- | ------------------------------------------------------- |
+| ランタイム管理         | Nix flake (DeterminateSystems/nix-installer-action@v22) |
+| パッケージマネージャー | pnpm                                                    |
+| ビルド                 | Vite + TypeScript                                       |
+| デプロイ               | actions/deploy-pages@v4                                 |
+| 通知                   | actions/github-script@v7（Job Summary）                 |
 
 ---
 
